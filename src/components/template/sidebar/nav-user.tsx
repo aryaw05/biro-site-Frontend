@@ -25,6 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function NavUser({
   user,
@@ -32,6 +33,7 @@ export function NavUser({
   user: {
     name: string;
     email: string;
+    to: string;
     avatar: string;
   };
 }) {
@@ -78,6 +80,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
+                <Link href={user.to}></Link>
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>

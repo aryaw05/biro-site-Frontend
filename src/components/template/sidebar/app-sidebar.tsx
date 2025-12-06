@@ -1,110 +1,150 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, Bot, Settings2, SquareTerminal } from "lucide-react";
+import {
+  AudioWaveform,
+  Calendar,
+  Command,
+  Home,
+  MessageCircleQuestion,
+  Search,
+  Settings2,
+} from "lucide-react";
 
+import { NavDrafts } from "@/components/template/sidebar/nav-drafts";
 import { NavMain } from "@/components/template/sidebar/nav-main";
-import { NavUser } from "@/components/template/sidebar/nav-user";
+import { NavSecondary } from "@/components/template/sidebar/nav-secondary";
+import { NavWorkspaces } from "@/components/template/sidebar/nav-workspaces";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarRail,
 } from "@/components/ui/sidebar";
+import { NavUser } from "./nav-user";
 
-import Image from "next/image";
+// This is sample data.
 const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
+    to: "/dashboard/profile",
     avatar: "/avatars/shadcn.jpg",
   },
+  teams: [
+    {
+      name: "Acme Inc",
+      logo: Command,
+      plan: "Enterprise",
+    },
+    {
+      name: "Acme Corp.",
+      logo: AudioWaveform,
+      plan: "Startup",
+    },
+    {
+      name: "Evil Corp.",
+      logo: Command,
+      plan: "Free",
+    },
+  ],
   navMain: [
     {
-      title: "Playground",
+      title: "Search",
       url: "#",
-      icon: SquareTerminal,
+      icon: Search,
+    },
+    {
+      title: "Home",
+      url: "#",
+      icon: Home,
       isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
     },
+  ],
+  navSecondary: [
     {
-      title: "Models",
+      title: "Attendance",
       url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      icon: Calendar,
     },
     {
       title: "Settings",
       url: "#",
       icon: Settings2,
-      items: [
+    },
+    {
+      title: "Help",
+      url: "#",
+      icon: MessageCircleQuestion,
+    },
+  ],
+  favorites: [
+    {
+      name: "Project Management & Task Tracking",
+      url: "#",
+      emoji: "📊",
+    },
+    {
+      name: "Family Recipe Collection & Meal Planning",
+      url: "#",
+      emoji: "🍳",
+    },
+    {
+      name: "Fitness Tracker & Workout Routines",
+      url: "#",
+      emoji: "💪",
+    },
+    {
+      name: "Book Notes & Reading List",
+      url: "#",
+      emoji: "📚",
+    },
+    {
+      name: "Sustainable Gardening Tips & Plant Care",
+      url: "#",
+      emoji: "🌱",
+    },
+  ],
+  workspaces: [
+    {
+      name: "Blogs & Writing",
+      emoji: "🏠",
+      pages: [
         {
-          title: "General",
+          name: "Daily Journal & Reflection",
           url: "#",
+          emoji: "📔",
         },
         {
-          title: "Team",
+          name: "Health & Wellness Tracker",
           url: "#",
+          emoji: "🍏",
         },
         {
-          title: "Billing",
+          name: "Personal Growth & Learning Goals",
           url: "#",
+          emoji: "🌟",
+        },
+      ],
+    },
+    {
+      name: "Events",
+      emoji: "🎉",
+      pages: [
+        {
+          name: "Career Objectives & Milestones",
+          url: "#",
+          emoji: "🎯",
         },
         {
-          title: "Limits",
+          name: "Skill Acquisition & Training Log",
           url: "#",
+          emoji: "🧠",
+        },
+        {
+          name: "Networking Contacts & Events",
+          url: "#",
+          emoji: "🤝",
         },
       ],
     },
@@ -113,40 +153,17 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar
-      className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
-      {...props}
-    >
+    <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Image
-                    src="/logo/logo-f11.png"
-                    alt="logo"
-                    width={40}
-                    height={23}
-                  />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">
-                    Biro Teknik Informatika
-                  </span>
-                  <span className="truncate text-xs">Udinus Kediri</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <NavUser user={data.user} />
+        <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavDrafts favorites={data.favorites} />
+        <NavWorkspaces workspaces={data.workspaces} />
+        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 }
